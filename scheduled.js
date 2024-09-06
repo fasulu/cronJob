@@ -2,7 +2,9 @@ const schedule = require("node-schedule");
 const { MongoClient } = require("mongodb");
 const { ReadFile } = require("./utility/readFile");
 
-const uri = "mongodb://localhost:27017/";
+// const uri = "mongodb://localhost:27017/";
+// const uri = "mongodb+srv://ismail:liamsi26@cluster0.zsyf0kn.mongodb.net"
+const uri = "mongodb+srv://fasulu:L2wut2glTa0OjWtl@restapi.43noif2.mongodb.net"
 const client = new MongoClient(uri);
 var paidList = [];
 
@@ -18,14 +20,14 @@ try {
   rule = "*/1 * * * *"
   const job = schedule.scheduleJob(rule, function (firedate) {
 
-    console.log('Job started' + firedate);
+    console.log('Job started ' + firedate);
 
-    const scheduledResult = run().catch(console.dir);
+    const scheduledResult = getData().catch(console.dir);
 
     setTimeout(function () {
       ReadFile(paidList);
-    }, 3000);        // will wait to get updated to avoid promise error;
-
+    }, 6000);        // will wait to get updated to avoid promise error;
+    
     console.log("File read ")
 
   });
@@ -33,18 +35,19 @@ try {
   console.log("Something went wrong in scheduled job\n", error)
 }
 
-async function run() {
+async function getData() {
   try {
     await client.connect();
-
-    const result = await client.db("stripe").collection("payments").find({}).toArray(function (err, result) {
+    
+    const result = await client.db("user").collection("payments").find({}).toArray(function (err, result) {
       if (err) throw err;
       // console.log(result);
       db.close();
     });
     // console.log("Connected successfully", result);
     paidList = result;
-
+    console.dir(paidList)
+    
   } finally {
     await client.close();
     if (client.close()) {

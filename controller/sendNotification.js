@@ -6,7 +6,7 @@ function SendNotification(data) {
     email = data.email;
     plan = data.plan;
     isAnnual = data.isAnnual;
-    validUntil = data.validUntil;
+    lastBillingDate = data.lastBillingDate;
     numDays = data.numDays
 
     try {
@@ -17,12 +17,12 @@ function SendNotification(data) {
                 break;
             case "Gold": 
                 if (numDays <= 31) {
-                    console.log(`Your current subscription plan type is "${plan}".\nIt is ending on ${new Date(validUntil).toLocaleDateString()}, (in ${numDays} days).\nTo renew your subscription please follow the link`)
+                    console.log(`Your current subscription plan type is "${plan}".\nValid until ${new Date(lastBillingDate).toLocaleDateString()}, (in ${numDays} days).\nTo renew your subscription please follow the link`)
                     break;
                 }
             case "Platinum": 
                 if (numDays <= 31) {
-                    console.log(`Your current subscription plan type is "${plan}".\nIt is ending on ${new Date(validUntil).toLocaleDateString()}, (in ${numDays} days).\nTo renew your subscription please follow the link`)
+                    console.log(`Your current subscription plan type is "${plan}".\nValid until ${new Date(lastBillingDate).toLocaleDateString()}, (in ${numDays} days).\nTo renew your subscription please follow the link`)
                     break;
                 }
             default:
